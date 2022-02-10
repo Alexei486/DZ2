@@ -1,0 +1,3 @@
+/home/alex/DZ2/build-untitled-Desktop-Debug/CMakeFiles/edit_cache.dir
+/home/alex/DZ2/build-untitled-Desktop-Debug/CMakeFiles/rebuild_cache.dir
+/home/alex/DZ2/build-untitled-Desktop-Debug/CMakeFiles/untitled.dir
