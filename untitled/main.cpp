@@ -4,5 +4,7 @@ int main()
 {
     std::cout << "Hello Math!" << std::endl
     std::cout << "Hello World!" << std::endl;
+    int a=0;
+    std::cout<<a<<std::endl;
     return 0;
 }
