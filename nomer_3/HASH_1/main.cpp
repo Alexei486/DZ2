@@ -4,26 +4,39 @@
 #include <vector>
 #include<chrono>
 #include "timer.hpp"
+#include <random>
 #include<algorithm>
+#define N 1e7
 
 int main() {
-    Timer<std::chrono::microseconds> t(false);
-    srand(4541);
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::vector<int> array0;
+    std::iota(std::begin(array0), std::end(array0), 1);
+    std::shuffle(std::begin(array0), std::end(array0), g);
+
+    Timer<std::chrono::microseconds> vec_t(false);
+    vec_t.stop();
+    Timer<std::chrono::microseconds> set_t(false);
+    set_t.stop();
+
+    std::vector<int> array;
     std::set < int > st;
 
-    for (int count = 0; count < 100; ++count) {
+    set_t.start();
+    for (int count = 0; count < N; count++) {
 
-        st.insert(rand());
+        st.insert(array0[count]);
     }
+    set_t.stop();
 
-    t.start();
-    std::vector<int> array;
-    for(auto i : st)
-        array.push_back(i);
-
+    vect_t.start();
+    for(int count = 0; count < N; count++)
+        array.push_back(array0[count]);
     std::sort(array.begin(),array.end());
-    t.stop();
-    t.elapsed();
+    vect_t.stop();
+
 }
-//set -40,42,43,41,42,43
-//vector - 17,18,45,21,19,31,21
+
+//set - 19894 milliseconds
+//vector - 1632 milliseconds
