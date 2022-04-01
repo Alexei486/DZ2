@@ -47,9 +47,8 @@ int main() {
     auto AP = 0;
 
     auto n = 0;
-
-    for (auto i : s)
-    {
+    fout.open(path);
+    for (auto i : s) {
         n++;
         RSH += 1 - hash_RS.insert(RSHash(i, i.size())).second;
         JSH += 1 - hash_JS.insert(JSHash(i, i.size())).second;
@@ -60,23 +59,12 @@ int main() {
         DJB += 1 - hash_DJB.insert(DJBHash(i, i.size())).second;
         DEK += 1 - hash_DEK.insert(DEKHash(i, i.size())).second;
         AP += 1 - hash_AP.insert(APHash(i, i.size())).second;
+
+
+        {
+            fout << n << "," << RSH << "," << JSH << "," << PJW << "," << ELF << "," << BKDR << "," << SDBM << ","
+                 << DJB << "," << DEK << "," << AP << "\n";
+        }
     }
-    fout.open(path);
-    if(!fout.is_open())
-    {
-        std::cout<<"error"<<std::endl;
-    }
-    else
-    {
-        fout << RSH << "\n";
-        fout << JSH << "\n";
-        fout << PJW << "\n";
-        fout << BKDR << "\n";
-        fout << JSH << "\n";
-        fout << SDBM << "\n";
-        fout << DJB << "\n";
-        fout << DEK << "\n";
-        fout << AP << "\n";
-    }
-    fout.close();
 }
+
