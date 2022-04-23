@@ -6,8 +6,7 @@ int main()
 {
     long double change,money;
     std::cout << "Enter the money in USD: ";
-
-    std::cin >> money;
+    std::cin >> std::get_money(money);
     money *= 100;
     std::cout.imbue(std::locale("en_US.UTF-8"));
     std::cout << "USD: " << std::put_money(money) << std::endl;
