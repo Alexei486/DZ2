@@ -11,7 +11,7 @@ public:
         c_acceptor.listen(c_size);
         c_acceptor.accept(c_socket);
     }
-    void main_job()
+    void main()
     {
         std::thread thred([this]() { read_data_until(); });
         write_data();
@@ -49,21 +49,14 @@ private:
 
 
 int main(int argc, char** argv) {
-
-    const std::size_t size = 30;
-
     auto port = 3333;
-
-
-    boost::asio::ip::address ip_address =
-            boost::asio::ip::address_v6::any();
 
     boost::asio::ip::tcp::endpoint endpoint(ip_address, port);
     boost::asio::io_service io_service;
     std::string name = "server";
     try {
         Server server(name, io_service, endpoint);
-        server.main_job();
+        server.main();
     }
     catch (boost::system::system_error & e)
     {
