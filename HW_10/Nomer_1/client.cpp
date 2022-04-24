@@ -12,7 +12,7 @@ public:
         c_socket.connect(c_endpoint);
     }
     ~Client() {}
-    void main_job()
+    void main()
     {
         boost::asio::streambuf buffer;
         boost::asio::read_until(c_socket, buffer, '!');
@@ -64,9 +64,7 @@ private:
 
 int main(int argc, char** argv) {
 
-    std::string raw_ip_address = "127.0.0.1";
-
-    const std::size_t size = 30;
+    std::string raw_ip_address = "::1";
     auto port = 3333;
     std::string name = "client";
     try {
