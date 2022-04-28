@@ -4,12 +4,13 @@
 #include <string>
 class Server
 {
+    using socket_1=boost::asio::ip::tcp::socket;
 public:
     Server(const std::string name, int port) :
             c_endpoint(boost::asio::ip::address_v4::any(), port), c_acceptor(nullptr), c_socket(nullptr), c_name(name)
     {
         c_acceptor = std::make_shared<boost::asio::ip::tcp::acceptor>(io_service, c_endpoint.protocol());
-        c_socket = std::make_shared<boost::asio::ip::tcp::socket>(io_service);
+        c_socket = std::make_shared<socket_1>(io_service);
         c_acceptor->bind(c_endpoint);
         c_acceptor->listen(c_size);
         c_acceptor->accept(*c_socket);
@@ -56,7 +57,7 @@ private:
     std::shared_ptr<boost::asio::ip::tcp::acceptor> c_acceptor;
     boost::asio::ip::tcp::endpoint c_endpoint;
     static inline const std::size_t c_size = 50;
-    std::shared_ptr<boost::asio::ip::tcp::socket> c_socket;
+    std::shared_ptr<socket_1> c_socket;
     std::string c_name;
     std::string client_name;
 };
