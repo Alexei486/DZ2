@@ -4,13 +4,16 @@
 #include <string>
 
 class Client
-        {
+{
+    using socket_1=boost::asio::ip::tcp::socket;
+
 public:
     Client(std::string& name, std::string& raw_ip_address, int port) :
             c_name(name), c_endpoint(boost::asio::ip::address::from_string(raw_ip_address), port), c_socket(nullptr)
     {
-        c_socket = std::make_shared<boost::asio::ip::tcp::socket>(io_service, c_endpoint.protocol());
+        c_socket = std::make_shared<socket_1>(io_service, c_endpoint.protocol());
         c_socket->connect(c_endpoint);
+        std::cout<<"connected";
     }
     ~Client() {}
     void main()
@@ -30,21 +33,21 @@ public:
         boost::asio::streambuf buffer;
         while (true)
         {
-        boost::asio::read_until(*c_socket, buffer, '!');
+            boost::asio::read_until(*c_socket, buffer, '!');
 
-        std::string message;
+            std::string message;
 
-        // Because buffer 'buf' may contain some other data
-        // after '\n' symbol, we have to parse the buffer and
-        // extract only symbols before the delimiter.
-        std::istream input_stream(&buffer);
-        std::getline(input_stream, message, '!');
-        if (message == "exit")
-        {
-            break;
-        }
-        std::cout << message << std::endl;
-        //return message;
+            // Because buffer 'buf' may contain some other data
+            // after '\n' symbol, we have to parse the buffer and
+            // extract only symbols before the delimiter.
+            std::istream input_stream(&buffer);
+            std::getline(input_stream, message, '!');
+            if (message == "exit")
+            {
+                break;
+            }
+            std::cout << message << std::endl;
+            //return message;
         }
     }
     void write_data()
@@ -56,7 +59,7 @@ public:
 
 private:
     boost::asio::io_service io_service;
-    std::shared_ptr<boost::asio::ip::tcp::socket> c_socket;
+    std::shared_ptr<socket_1> c_socket;
     boost::asio::ip::tcp::endpoint c_endpoint;
     std::string c_name;
     std::string server_name;
@@ -66,10 +69,9 @@ private:
 
 int main(int argc, char** argv) {
 
-    std::string raw_ip_address = "127.0.0.1";
-
+    std::string raw_ip_address = "93.175.8.67";
     const std::size_t size = 30;
-    auto port = 3333;
+    auto port = 48999;
     std::string name = "client";
     try {
         boost::asio::ip::tcp::endpoint endpoint(
@@ -78,7 +80,7 @@ int main(int argc, char** argv) {
         Client client(name, raw_ip_address, port);
         client.main();
     }
-    catch (boost::system::system_error & e)
+    catch (const boost::system::system_error & e)
     {
         std::cout << "Error occured! Error code = " << e.code() << ". Message: " << e.what() << std::endl;
 
