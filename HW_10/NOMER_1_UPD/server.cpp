@@ -3,9 +3,9 @@
 #include<iostream>
 #include <string>
 class Server
-        {
+{
 public:
-    Server(std::string name, int port) :
+    Server(const std::string name, int port) :
             c_endpoint(boost::asio::ip::address_v4::any(), port), c_acceptor(nullptr), c_socket(nullptr), c_name(name)
     {
         c_acceptor = std::make_shared<boost::asio::ip::tcp::acceptor>(io_service, c_endpoint.protocol());
@@ -36,10 +36,6 @@ public:
             // extract only symbols before the delimiter.
             std::istream input_stream(&buffer);
             std::getline(input_stream, message, '!');
-            if (message == client_name + "exit")
-            {
-                break;
-            }
             std::cout << message << std::endl;
         }
     }
@@ -59,7 +55,7 @@ private:
     boost::asio::io_service io_service;
     std::shared_ptr<boost::asio::ip::tcp::acceptor> c_acceptor;
     boost::asio::ip::tcp::endpoint c_endpoint;
-    const std::size_t c_size = 50;
+    static inline const std::size_t c_size = 50;
     std::shared_ptr<boost::asio::ip::tcp::socket> c_socket;
     std::string c_name;
     std::string client_name;
@@ -69,7 +65,7 @@ private:
 
 int main(int argc, char** argv) {
 
-    auto port = 3333;
+    auto port = 48999;
     boost::asio::io_service io_service;
     std::string name = "server";
     try {
