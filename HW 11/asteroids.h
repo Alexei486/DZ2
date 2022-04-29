@@ -85,6 +85,7 @@ namespace asteroids
             sf::CircleShape circle(m_R);
             circle.setPosition(m_x,m_y);
             circle.setOrigin(m_R,m_R);
+            //app.draw(circle);
         }
 
         virtual ~Entity() = default;
@@ -153,6 +154,15 @@ namespace asteroids
     public:
         Player(Animation &a, float x, float y, float angle = 0.0, float R = 1.0)
         noexcept : Entity(a, x, y, Parametr::player, angle, R) {}
+
+
+        //life
+        Player()
+        {
+            life=3;
+            health = 100;
+            score = 0;
+        }
     void update() noexcept override
     {
     if (thrust)
@@ -180,7 +190,9 @@ namespace asteroids
     }
 public:
 bool thrust;
-
+int health;
+int score;
+int life;
 private:
 const float maxSpeed = 150.0;
 };
@@ -234,6 +246,13 @@ const float maxSpeed = 150.0;
             Player *p = new Player(sPlayer, 200, 200, 0, 20);
             entities.push_back(p);
 
+            //life
+
+            sf::Font font;//øðèôò
+            font.loadFromFile("/Users/alekseimorozov/CLionProjects/untitled21/Chopsic.ttf");
+            sf::Text text("", font, 18);
+            sf::Text death("", font, 72);
+
             while (app.isOpen()) {
                 sf::Event event;
 
@@ -252,12 +271,27 @@ const float maxSpeed = 150.0;
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) { p->m_angle -= 3; }
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) { p->thrust = true; }
                 else { p->thrust = false; }
+                //life
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::R) && p->life == 0) {
+                    p->score = 0;
+                    p->life = 3;
+                    p->health = 100;
+                    p->settings(sPlayer, 200, 200, 0, 20);
+                    entities.push_back(p);
+                }
+
                 for (auto a: entities) {
                     for (auto b: entities) {
                         if (a->m_name == Parametr::asteroid && b->m_name == Parametr::bullet) {
                             if (isCollide(a, b)) {
                                 a->m_life = false;
                                 b->m_life = false;
+
+                                //life
+                                if (a->m_R== 25)
+                                    p->score++;
+                                else
+                                    p->score += 10;
 
                                 Entity *e = new Entity(sExplosion, a->m_x, a->m_y, Parametr::explosion);
                                 entities.push_back(e);
@@ -279,9 +313,25 @@ const float maxSpeed = 150.0;
                                 Entity *e = new Entity(sExplosion_ship, a->m_x, a->m_y, Parametr::explosion);
                                 entities.push_back(e);
 
-                                p->settings(sPlayer, m_width / 2, m_height / 2, 0, 20);
-                                p->m_dx = 0;
-                                p->m_dy = 0;
+                                //life
+                                if (p->health > b->m_R)
+                                    p->health -= b->m_R;
+                                else {
+                                    if (p->life > 1) {
+                                        p->life -= 1;
+                                        p->health = 100;
+
+                                        p->settings(sPlayer, m_width / 2, m_height / 2, 0, 20);
+                                        p->m_dx = 0;
+                                        p->m_dy = 0;
+                                    } else {
+                                        p->life = 0;
+                                        p->health = 0;
+                                        p->thrust = false;
+                                    }
+                                }
+                                //p->m_dx = 0;
+                                //p->m_dy = 0;
                             }
                         }
                     }
@@ -312,6 +362,40 @@ const float maxSpeed = 150.0;
                 app.draw(background);
                 for (auto i: entities) {
                     i->draw(app);
+                }
+                text.setString("Score:");
+                text.setPosition(15, 10);
+                app.draw(text);
+
+                text.setString("Lives: ");
+                text.setPosition(15, 35);
+                app.draw(text);
+
+                text.setString("Health: ");
+                text.setPosition(15, 60);
+                app.draw(text);
+
+                text.setString(std::to_string(p->score));
+                text.setPosition(105, 10);
+                app.draw(text);
+
+                text.setString(std::to_string(p->life));
+                text.setPosition(96, 35);
+                app.draw(text);
+
+                text.setString(std::to_string(p->health) + "%");
+                text.setPosition(116, 60);
+                app.draw(text);
+
+                if (p->life == 0)
+                {
+                    death.setString("GAME OVER");
+                    death.setPosition(m_width / 2 - 250, m_height / 2);
+                    app.draw(death);
+
+                    text.setString("Press \"R\" to restart");
+                    text.setPosition(m_width / 2 - 150, m_height / 2 + 100);
+                    app.draw(text);
                 }
                 app.display();
             }
