@@ -85,7 +85,6 @@ namespace asteroids
             sf::CircleShape circle(m_R);
             circle.setPosition(m_x,m_y);
             circle.setOrigin(m_R,m_R);
-            //app.draw(circle);
         }
 
         virtual ~Entity() = default;
