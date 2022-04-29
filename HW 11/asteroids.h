@@ -2,13 +2,9 @@
 #include <SFML/Graphics.hpp>
 #include<random>
 #include <algorithm>
-#include <chrono>
-#include <ctime>
 #include <iostream>
 #include <list>
 #include <numeric>
-#include <random>
-#include <vector>
 
 namespace asteroids
 {
