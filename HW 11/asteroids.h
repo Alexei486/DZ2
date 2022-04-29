@@ -272,7 +272,7 @@ const float maxSpeed = 150.0;
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) { p->thrust = true; }
                 else { p->thrust = false; }
                 //life
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::R) && p->life == 0) {
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::F) && p->life == 0) {
                     p->score = 0;
                     p->life = 3;
                     p->health = 100;
@@ -389,11 +389,11 @@ const float maxSpeed = 150.0;
 
                 if (p->life == 0)
                 {
-                    death.setString("GAME OVER");
-                    death.setPosition(m_width / 2 - 250, m_height / 2);
+                    death.setString("Dorabotaite");
+                    death.setPosition(m_width / 2 - 300, m_height / 2);
                     app.draw(death);
 
-                    text.setString("Press \"R\" to restart");
+                    text.setString("Press \"F\" to pay respect");
                     text.setPosition(m_width / 2 - 150, m_height / 2 + 100);
                     app.draw(text);
                 }
