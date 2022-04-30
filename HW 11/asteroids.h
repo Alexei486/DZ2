@@ -204,7 +204,6 @@ const float maxSpeed = 150.0;
         m_rand((static_cast <unsigned int> (std::chrono::system_clock::now().time_since_epoch().count()))),
         m_w(0, width), m_h(0, height), m_angle(0, 360), m_freq(0, m_frequency)
         {};
-        ~Game() = default;
         void run() {
             sf::RenderWindow app(sf::VideoMode(m_width, m_height), "Asteroids!");
             app.setFramerateLimit(60);
