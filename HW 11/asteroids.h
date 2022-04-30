@@ -60,7 +60,7 @@ namespace asteroids
 
         explicit Entity(Animation &a, float x, float y, int dx, int dy, Parameter name, float angle = 0.0,
                         float R = 1.0) noexcept : m_anim(a), m_x(x), m_y(y), m_angle(angle), m_R(R), m_dx(dx),m_dy(dy), m_name(name), m_life(true) {}
-        void settings(Animation &a,int x,int y,float angle=0,int radius=1) noexcept
+        void setSettings(Animation &a,int x,int y,float angle=0,int radius=1) noexcept
         {
             m_anim = a;
             m_x=x;
@@ -271,7 +271,7 @@ const float maxSpeed = 150.0;
                     p->score = 0;
                     p->life = 3;
                     p->health = 100;
-                    p->settings(sPlayer, 200, 200, 0, 20);
+                    p->setSettings(sPlayer, 200, 200, 0, 20);
                     entities.push_back(p);
                 }
 
@@ -316,7 +316,7 @@ const float maxSpeed = 150.0;
                                         p->life -= 1;
                                         p->health = 100;
 
-                                        p->settings(sPlayer, m_width / 2, m_height / 2, 0, 20);
+                                        p->setSettings(sPlayer, m_width / 2, m_height / 2, 0, 20);
                                         p->m_dx = 0;
                                         p->m_dy = 0;
                                     } else {
