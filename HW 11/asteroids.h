@@ -191,7 +191,7 @@ int life;
 private:
 const float maxSpeed = 150.0;
 };
-    bool isCollide(Entity* a, Entity* b)
+    inline bool isCollide(Entity* a, Entity* b)
     {
         return (b->m_x - a->m_x) * (b->m_x - a->m_x) +
                (b->m_y - a->m_y) * (b->m_y - a->m_y) <
