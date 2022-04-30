@@ -8,7 +8,7 @@
 
 namespace asteroids
 {
-    enum Parametr {
+    enum class Parameter {
         player,
         asteroid,
         bullet,
@@ -56,10 +56,10 @@ namespace asteroids
         explicit Entity(Animation &a, float x, float y, float angle = 0.0, float R = 1.0)
         noexcept : m_anim(a), m_x(x), m_y(y), m_angle(angle), m_R(R), m_life(true) {}
 
-        explicit Entity(Animation &a, float x, float y, Parametr name, float angle = 0.0, float R = 1.0)
+        explicit Entity(Animation &a, float x, float y, Parameter name, float angle = 0.0, float R = 1.0)
         noexcept : m_anim(a), m_x(x), m_y(y), m_angle(angle), m_R(R), m_name(name), m_life(true) {}
 
-        explicit Entity(Animation &a, float x, float y, int dx, int dy, Parametr name, float angle = 0.0,
+        explicit Entity(Animation &a, float x, float y, int dx, int dy, Parameter name, float angle = 0.0,
                         float R = 1.0) noexcept : m_anim(a), m_x(x), m_y(y), m_angle(angle), m_R(R), m_dx(dx),m_dy(dy), m_name(name), m_life(true) {}
         void settings(Animation &a,int x,int y,float angle=0,int radius=1) noexcept
         {
@@ -88,7 +88,7 @@ namespace asteroids
     public:
         float m_x, m_y, m_dx, m_dy, m_R, m_angle;
         bool m_life;
-        Parametr m_name;
+        Parameter m_name;
         Animation m_anim;
     protected:
         const int W = 1200;
@@ -99,7 +99,7 @@ namespace asteroids
     public:
         Asteroid(Animation &a, float x, float y, float angle = 0.0, float R = 1.0)
         noexcept : m_trash_speed(-4,4),
-                Entity(a, x, y, Parametr::asteroid, angle, R)
+                Entity(a, x, y, Parameter::asteroid, angle, R)
         {
             std::random_device rd;
             std::mt19937 g(rd());
@@ -124,7 +124,7 @@ namespace asteroids
             {
     public:
         Bullet(Animation &a, float x, float y, float angle = 0.0, float R = 1.0)
-        noexcept : Entity(a, x, y, Parametr::bullet, angle, R),
+        noexcept : Entity(a, x, y, Parameter::bullet, angle, R),
         bull_angle(-4,4)
         {}
         void  update() noexcept override
@@ -149,7 +149,7 @@ namespace asteroids
     {
     public:
         Player(Animation &a, float x, float y, float angle = 0.0, float R = 1.0)
-        noexcept : Entity(a, x, y, Parametr::player, angle, R) {}
+        noexcept : Entity(a, x, y, Parameter::player, angle, R) {}
 
 
         //life
@@ -278,7 +278,7 @@ const float maxSpeed = 150.0;
 
                 for (auto a: entities) {
                     for (auto b: entities) {
-                        if (a->m_name == Parametr::asteroid && b->m_name == Parametr::bullet) {
+                        if (a->m_name == Parameter::asteroid && b->m_name == Parameter::bullet) {
                             if (isCollide(a, b)) {
                                 a->m_life = false;
                                 b->m_life = false;
@@ -289,7 +289,7 @@ const float maxSpeed = 150.0;
                                 else
                                     p->score += 10;
 
-                                Entity *e = new Entity(sExplosion, a->m_x, a->m_y, Parametr::explosion);
+                                Entity *e = new Entity(sExplosion, a->m_x, a->m_y, Parameter::explosion);
                                 entities.push_back(e);
 
                                 for (auto i = 0U; i < 2; i++) {
@@ -302,11 +302,11 @@ const float maxSpeed = 150.0;
                             }
                         }
 
-                        if (a->m_name == Parametr::player && b->m_name == Parametr::asteroid) {
+                        if (a->m_name == Parameter::player && b->m_name == Parameter::asteroid) {
                             if (isCollide(a, b)) {
                                 b->m_life = false;
 
-                                Entity *e = new Entity(sExplosion_ship, a->m_x, a->m_y, Parametr::explosion);
+                                Entity *e = new Entity(sExplosion_ship, a->m_x, a->m_y, Parameter::explosion);
                                 entities.push_back(e);
 
                                 //life
@@ -338,7 +338,7 @@ const float maxSpeed = 150.0;
                     p->m_anim = sPlayer;
                 }
                 for (auto e: entities) {
-                    if (e->m_name == Parametr::explosion) {
+                    if (e->m_name == Parameter::explosion) {
                         if (e->m_anim.isEnd()) {
                             e->m_life = 0;
                         }
