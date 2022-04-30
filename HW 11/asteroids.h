@@ -30,7 +30,6 @@ namespace asteroids
             m_sprite.setOrigin(w / 2, h / 2);
             m_sprite.setTextureRect(m_frames[0]);
         }
-        ~Animation() = default;
 
         void update()
         {
