@@ -33,7 +33,7 @@ void Calculator::calculate(sf::Vector2f center, float width, float height)
 		{
 			for (auto x = 0U; x < m_width; ++x) 
 			{
-				std::complex < float > c(-0.7f, 0.3f);
+				std::complex < float > c(-0.75f, -0.3f);
 				std::complex < float > z(
 					center.x - width  / 2.0f + dx * x,
 					center.y - height / 2.0f + dy * y

@@ -13,8 +13,8 @@ void Visualizer::initialize() {
     m_text.setPosition(10.0f, 10.0f);
 
 
-    for (auto r = 1U; r < 256 / 16 - 1; r++) {
-        for (auto g = 1U; g < 256 / 16 - 1; g++) {
+    for (auto r = 256/16; r > 1; r--) {
+        for (auto g = 256/16; g > 1; g--) {
             for (auto b = 1U; b < 256 / 16 - 1; b++) {
                 m_colors.emplace_back(sf::Color(r * 16, g * 16, b * 16));
             }
