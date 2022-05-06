@@ -222,7 +222,7 @@ namespace asteroids
                                                m_ast_w(0, width), m_ast_h(0, height), m_ast_angle(0.0, 360.0), m_ast_freq(0, m_frequency)
         {};
         ~Game() noexcept = default;
-        void create_asteroids(Animation sRock)
+        void new_asteroids(Animation sRock)
         {
             for (auto i = 0U; i < Sum_Asteroids ; i++)
             {
@@ -231,14 +231,14 @@ namespace asteroids
                 entities.push_back(a);
             }
         }
-        std::shared_ptr<Player> create_player(Animation sPlayer)
+        std::shared_ptr<Player> new_player(Animation sPlayer)
         {
             std::shared_ptr<Player> p = std::make_shared <Player>
                     (Player(sPlayer, m_width / 2, m_height / 2, 0, player_size));
             entities.push_back(p);
             return p;
         }
-        void check_pressed_keys(sf::Event event, Animation sBullet, std::shared_ptr<Player> p)
+        void pressed_keys(sf::Event event, Animation sBullet, std::shared_ptr<Player> p)
         {
             if (event.type == sf::Event::Closed)
             {
@@ -372,9 +372,9 @@ namespace asteroids
             Animation sPlayer_go(t1, 40, 40, 40, 40, 1, 0);
             Animation sExplosion_ship(t7, 0, 0, 192, 192, 64, 0.5);
 
-            create_asteroids(sRock);
+            new_asteroids(sRock);
 
-            std::shared_ptr<Player> p = create_player(sPlayer);
+            std::shared_ptr<Player> p = new_player(sPlayer);
 
             while (app.isOpen() && lives > 0)
             {
@@ -382,7 +382,7 @@ namespace asteroids
 
                 while (app.pollEvent(event))
                 {
-                    check_pressed_keys(event, sBullet, p);
+                    pressed_keys(event, sBullet, p);
                 }
 
                 rotate_spaceship(p);
