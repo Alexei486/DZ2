@@ -94,7 +94,7 @@ void Brouns::draw() {
 			}
 
 		G_FieldDisT.update(&G_FieldDis[0]); // zagryzaem na videokarty
-		G_FieldDisS.setTexture(G_FieldDisT); // zagryzaem na videokarty
+		G_FieldDisS.setTexture(G_FieldDisT); // privyazka k videokarte
 		window.draw(G_FieldDisS); // risuem sprite(ego mozna ywelichiwat i ymenshat!!! ny i menyat cwet// )
         // na eti pary strok bilo ybito pol dnya chtob yiti ot pikselnoi risowki k optimizacii spritow
 	} else
@@ -113,7 +113,7 @@ void Brouns::draw() {
 				}
 
 		G_FieldT.update(&G_Field[0]); //zagryzaem na videokarty
-		G_FieldS.setTexture(G_FieldT); // zagryzaem na videokarty
+		G_FieldS.setTexture(G_FieldT); //  privyazka k videokarte
 		window.draw(G_FieldS); //risuem sprite(ego mozna ywelichiwat i ymenshat!!! ny i menyat cwet// )
 	}
 
