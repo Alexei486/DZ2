@@ -336,9 +336,20 @@ namespace asteroids
             for (auto i: entities) {
                 i->draw(app);
             }
-            text.setString("Lives: " + std::to_string(lives)+ "\nHealth: "+ std::to_string(health) + "\nScore: " + std::to_string(points));
-            app.draw(text);
-            app.display();
+            if(lives>-1)
+            {
+                text.setString("Lives: " + std::to_string(lives)+ "\nHealth: "+ std::to_string(health) + "\nScore: " + std::to_string(points));
+                app.draw(text);
+                app.display();
+            }
+            else
+            {
+                text.setString("GAME OVER");
+                text.setPosition(m_width / 2 - 150, m_height / 2 + 100);
+                app.draw(text);
+                app.display();
+            }
+
         }
         void run() {
             sf::Font font;//nice
@@ -376,7 +387,7 @@ namespace asteroids
 
             std::shared_ptr<Player> p = new_player(sPlayer);
 
-            while (app.isOpen() && lives > 0)
+            while (app.isOpen())
             {
                 sf::Event event;
 
@@ -388,6 +399,7 @@ namespace asteroids
                 rotate_spaceship(p);
 
                 p->thrust = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
+
 
                 check_collisions(p, sExplosion, sRock_small, sExplosion_ship);
 
@@ -405,7 +417,6 @@ namespace asteroids
 
                 paint(background);
             }
-            std::cout << "Your result: " << points << " points" << std::endl;
         }
     private:
         const int m_width, m_height;
