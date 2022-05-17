@@ -1,69 +1,53 @@
-#include <algorithm>
-#include <array>
-#include <thread>
 #include <vector>
 #include <random>
-
 #include <SFML/Graphics.hpp>
-#include <SFML/Graphics/Text.hpp>
-
 
 class Brouns {
 public:
-	Brouns();
-	~Brouns() noexcept = default;
+    Brouns();
 
-	void run();
-
-private:
-	struct ivec2 {
-		ivec2() {};
-		ivec2(int coord) : x(coord), y(coord) {};
-		ivec2(int coord_1, int coord_2) : x(coord_1), y(coord_2) {};
-		int x = 0, y = 0;
-	};
-
-	const ivec2 Direction[4] = {ivec2(0, 1), ivec2(1, 0), ivec2(0, -1), ivec2(-1, 0)};
-
-	struct Particle : ivec2 {
-	};
-
-	void draw();
-	void chaotic_movement(Particle& particle);
-	void compute();
+    void run();
 
 private:
-	std::mt19937 mersenne;
+    void draw();
 
-	// okno
-	const int Xw = 700; // razmer po x
-	const int Yw = 700; // razmer po y
+    void chaotic_movement(sf::Vector2i &particle);
 
-	sf::Texture G_FieldDisT; // SFML Textures // spasibo habr za idey optimizacii so spraitami a ne popikselno
-	sf::Sprite G_FieldDisS; // sprite - ta ze tekstura, proshe menyat
-	std::vector<uint8_t> G_FieldDis; // mesto gde hrany dannie o pykselyax
+    void compute();
 
-	sf::Texture G_FieldT; // SFML Textures // spasibo habr za idey optimizacii so spraitami a ne popikselno
-	sf::Sprite G_FieldS;// sprite - ta ze tekstura, proshe menyat
-	std::vector<uint8_t> G_Field; // mesto gde hrany dannie o pykselyax
+    void createGrid(int x, int y, uint8_t color, std::vector<uint8_t> &field, sf::Texture &fieldTexture,
+                    sf::Sprite &fieldSprite);
 
-	std::string start_window_name = "Broun movement";
-	sf::RenderWindow window;
+private:
+    std::mt19937 mersenne{std::random_device()()};
 
-	// parametry and dannie
-	const float scale = 2.; //  bolshie pikseli dlya podscheta teploty
-	const float scale_of_field = 10.; //
+    // okno
+    const int Xw = 700; // razmer po x
+    const int Yw = 700; // razmer po y
 
-	const int particles_num = 5000; // stoka chastichek
-	const int upper_value = 10;
+    sf::Texture G_FieldDisT; // SFML Textures // spasibo habr za idey optimizacii so spraitami a ne popikselno
+    sf::Sprite G_FieldDisS; // sprite - ta ze tekstura, proshe menyat
+    std::vector<uint8_t> G_FieldDis; // mesto gde hrany dannie o pykselyax
 
-	const int Xm = int(Xw / scale); // melkozernistoe pole po pykselyam dlya tochek
-	const int Ym = int(Yw / scale);
+    sf::Texture G_FieldT; // SFML Textures // spasibo habr za idey optimizacii so spraitami a ne popikselno
+    sf::Sprite G_FieldS;// sprite - ta ze tekstura, proshe menyat
+    std::vector<uint8_t> G_Field; // mesto gde hrany dannie o pykselyax
 
-	const int Xm_dis = int(Xw / scale / scale_of_field); // krypnozernistoe pole
-	const int Ym_dis = int(Yw / scale / scale_of_field); // eto otwechayet za plotnost po syti
+//	std::string start_window_name = "Broun movement";
+    sf::RenderWindow window{sf::VideoMode(Xw, Yw), "Broun movement"};
 
-	std::vector<Particle> particles;
-	std::vector<std::vector<int>> field;
-	std::vector<std::vector<int>> field_discretizations;
+    // parametry and dannie
+    const float scale = 1.; //  bolshie pikseli dlya podscheta teploty
+    const float fieldScale = 20.; //
+
+    const int Xm = static_cast<int>(static_cast<float>(Xw) / scale); // melkozernistoe pole po pykselyam dlya tochek
+    const int Ym = static_cast<int>(static_cast<float>(Yw) / scale);
+
+    const int Xm_dis = static_cast<int>(static_cast<float>(Xw) / scale / fieldScale); // krypnozernistoe pole
+    const int Ym_dis = static_cast<int>(static_cast<float>(Yw) / scale /
+                                        fieldScale); // eto otwechayet za plotnost po syti
+
+    std::vector<sf::Vector2i> m_particles;
+    std::vector<std::vector<int>> m_field{static_cast<size_t>(Xm), std::vector<int>(Ym, 0)};
+    std::vector<std::vector<int>> m_fieldDiscretizations{static_cast<size_t>(Xm_dis), std::vector<int>(Ym_dis, 0)};
 };
